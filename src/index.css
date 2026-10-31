@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-cream-100: #FAF6F0;
+  --color-cream-200: #F5EFEB;
+  --color-espresso-800: #2D1E18;
+  --color-terracotta: #D95D39;
+  --color-honey: #E5A93B;
+  --color-whatsapp: #25D366;
+}
+
+/* Custom Base Styling */
+html {
+  scroll-behavior: smooth;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-cream-100);
+  color: var(--color-espresso-800);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scalloped Wavy Edge Utilities */
+.scallop-bottom {
+  position: relative;
+}
+
+.scallop-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-size: 20px 20px;
+  background-repeat: repeat-x;
+  background-image: radial-gradient(circle at 10px 0px, transparent 10px, #FAF6F0 11px);
+  z-index: 10;
+}
+
+/* Arched Puppy Image Frame */
+.arch-frame {
+  border-radius: 140px 140px 24px 24px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.arch-frame:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -6px rgba(45, 30, 24, 0.15);
+}
+
+/* Perforated Boarding Pass / Ticket Borders (for Gone Home tickets) */
+.ticket-edge {
+  position: relative;
+  background: #FFFFFF;
+}
+
+.ticket-edge::before,
+.ticket-edge::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-cream-100);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.ticket-edge::before {
+  left: -10px;
+}
+
+.ticket-edge::after {
+  right: -10px;
+}
+
+.ticket-dashed-line {
+  border-top: 2px dashed #EAE1D9;
+}
