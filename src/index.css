@@ -109,6 +109,17 @@ body {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Quilted Diamond Lattice Background */
 .tp-quilt-pattern {
   background: repeating-linear-gradient(45deg, transparent 0 20px, rgba(42, 23, 14, 0.04) 20px 22px),

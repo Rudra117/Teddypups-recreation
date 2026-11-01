@@ -32,34 +32,67 @@ export const HeroLineup: React.FC<HeroLineupProps> = ({ puppies }) => {
   useEffect(() => {
     if (puppies.length <= 6) return;
 
-    const interval = setInterval(() => {
-      // Pick a random seat to change (0 to 5)
-      const seatToChange = Math.floor(Math.random() * 6);
-      setChangingSeat(seatToChange);
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let interval: ReturnType<typeof setInterval> | undefined;
+    let changeTimer: ReturnType<typeof setTimeout> | undefined;
+    let settleTimer: ReturnType<typeof setTimeout> | undefined;
 
-      setTimeout(() => {
-        setActiveIndices((prev) => {
-          const next = [...prev];
-          // Pick a puppy index not currently shown
-          const currentPuppies = new Set(prev);
-          const availableIndices = puppies
-            .map((_, idx) => idx)
-            .filter((idx) => !currentPuppies.has(idx));
+    const stop = () => {
+      if (interval) clearInterval(interval);
+      if (changeTimer) clearTimeout(changeTimer);
+      if (settleTimer) clearTimeout(settleTimer);
+      interval = undefined;
+      changeTimer = undefined;
+      settleTimer = undefined;
+    };
 
-          if (availableIndices.length > 0) {
-            const randomNew = availableIndices[Math.floor(Math.random() * availableIndices.length)];
-            next[seatToChange] = randomNew;
-          }
-          return next;
-        });
+    const start = () => {
+      if (motionPreference.matches || interval) return;
 
-        setTimeout(() => {
-          setChangingSeat(null);
-        }, 300);
-      }, 400);
-    }, 2800);
+      interval = setInterval(() => {
+        // Pick a random seat to change (0 to 5)
+        const seatToChange = Math.floor(Math.random() * 6);
+        setChangingSeat(seatToChange);
 
-    return () => clearInterval(interval);
+        changeTimer = setTimeout(() => {
+          setActiveIndices((prev) => {
+            const next = [...prev];
+            // Pick a puppy index not currently shown
+            const currentPuppies = new Set(prev);
+            const availableIndices = puppies
+              .map((_, idx) => idx)
+              .filter((idx) => !currentPuppies.has(idx));
+
+            if (availableIndices.length > 0) {
+              const randomNew = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+              next[seatToChange] = randomNew;
+            }
+            return next;
+          });
+
+          settleTimer = setTimeout(() => {
+            setChangingSeat(null);
+          }, 300);
+        }, 400);
+      }, 2800);
+    };
+
+    const handleMotionPreferenceChange = () => {
+      if (motionPreference.matches) {
+        stop();
+        setChangingSeat(null);
+      } else {
+        start();
+      }
+    };
+
+    start();
+    motionPreference.addEventListener('change', handleMotionPreferenceChange);
+
+    return () => {
+      stop();
+      motionPreference.removeEventListener('change', handleMotionPreferenceChange);
+    };
   }, [puppies]);
 
   return (

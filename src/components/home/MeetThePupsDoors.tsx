@@ -25,12 +25,18 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
   const [maxScrollDistance, setMaxScrollDistance] = useState<number>(0);
   const [openDoors, setOpenDoors] = useState<Set<number>>(new Set());
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isDesktop, setIsDesktop] = useState<boolean>(true);
+  const [isDesktop, setIsDesktop] = useState<boolean>(() =>
+    typeof window !== 'undefined' &&
+    window.innerWidth >= 768 &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
 
   // Recalculate max horizontal travel distance
   const updateDistance = useCallback(() => {
     if (typeof window === 'undefined') return;
-    const desktop = window.innerWidth >= 768;
+    const desktop =
+      window.innerWidth >= 768 &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setIsDesktop(desktop);
 
     if (trackRef.current) {
@@ -44,8 +50,13 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
 
   useEffect(() => {
     updateDistance();
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
     window.addEventListener('resize', updateDistance);
-    return () => window.removeEventListener('resize', updateDistance);
+    motionPreference.addEventListener('change', updateDistance);
+    return () => {
+      window.removeEventListener('resize', updateDistance);
+      motionPreference.removeEventListener('change', updateDistance);
+    };
   }, [updateDistance, puppies.length]);
 
   // Scroll listener that drives horizontal translation from vertical scroll progress
