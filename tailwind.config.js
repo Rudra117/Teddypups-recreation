@@ -31,18 +31,23 @@ export default {
         honey: {
           DEFAULT: '#E5A93B',
           light: '#F8D489',
-          soft: '#FEF6E4',
+          soft: '#FCE2B8',
         },
         whatsapp: {
           DEFAULT: '#25D366',
           dark: '#1EBE5D',
           hover: '#20BA5A',
         },
+        cocoa: '#2A170E',
+        milk: '#FFFDF8',
+        toffee: '#C2622B',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        handwriting: ['"Caveat"', '"Patrick Hand"', 'cursive'],
+        serif: ['"Fraunces"', '"Playfair Display"', 'Georgia', 'serif'],
+        plush: ['"Fraunces"', 'serif'],
+        sans: ['"Figtree"', '"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        handwriting: ['"Shantell Sans"', '"Caveat"', 'cursive'],
+        scrawl: ['"Shantell Sans"', '"Caveat"', 'cursive'],
       },
       borderRadius: {
         'arch': '120px 120px 24px 24px',

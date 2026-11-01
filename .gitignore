@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Video frame dumps and screenshots
+references/video_frames/
+references/render_verification/
+

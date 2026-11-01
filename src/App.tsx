@@ -3,6 +3,9 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { Header } from './components/common/Header';
 import { Footer } from './components/common/Footer';
 import { StickyBottomBar } from './components/common/StickyBottomBar';
+import { PawTrailCursor } from './components/common/PawTrailCursor';
+import { RouteCurtain } from './components/common/RouteCurtain';
+import { WalkingPuppyMascot } from './components/common/WalkingPuppyMascot';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -28,8 +31,15 @@ const ScrollToTop: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-cream-100 text-espresso-800 font-sans selection:bg-terracotta selection:text-white">
+    <div className="flex flex-col min-h-screen bg-milk text-cocoa font-sans selection:bg-toffee selection:text-white relative">
+      {/* Priority 2: Custom paw-print cursor canvas trail */}
+      <PawTrailCursor />
+      {/* Priority 6: Page transition & reload quilted curtain */}
+      <RouteCurtain />
+      {/* Priority 1: Walking puppy mascot tracking scroll */}
+      <WalkingPuppyMascot />
       <ScrollToTop />
+
       <Header />
 
       <main className="flex-1">
