@@ -30,14 +30,16 @@ const ScrollToTop: React.FC = () => {
 };
 
 export const App: React.FC = () => {
+  const location = useLocation();
+
   return (
     <div className="flex flex-col min-h-screen bg-milk text-cocoa font-sans selection:bg-toffee selection:text-white relative">
       {/* Priority 2: Custom paw-print cursor canvas trail */}
       <PawTrailCursor />
       {/* Priority 6: Page transition & reload quilted curtain */}
       <RouteCurtain />
-      {/* Priority 1: Walking puppy mascot tracking scroll */}
-      <WalkingPuppyMascot />
+      {/* Walking puppy mascot: strictly rendered on homepage only */}
+      {location.pathname === '/' && <WalkingPuppyMascot />}
       <ScrollToTop />
 
       <Header />

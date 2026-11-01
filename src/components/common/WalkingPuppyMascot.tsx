@@ -1,6 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export const WalkingPuppyMascot: React.FC = () => {
+  const { pathname } = useLocation();
+
+  // Strictly restricted to homepage only (Priority 2)
+  if (pathname !== '/') {
+    return null;
+  }
+
   const [scrollY, setScrollY] = useState(0);
   const [isWalking, setIsWalking] = useState(false);
   const [facing, setFacing] = useState<'right' | 'left'>('right');
