@@ -65,7 +65,7 @@ export const PuppiesPage: React.FC = () => {
                 className="w-full h-3.5 text-toffee stroke-current fill-none stroke-[2.5]"
                 aria-hidden="true"
               >
-                <path d="M4 15c40-9 70 5 112-2s70-9 112 0 74 8" />
+                <path d="M4 15 C44 6 74 20 116 13 S186 4 228 13 S272 21 296 15" />
               </svg>
             </div>
             <p className="text-cocoa/80 text-base md:text-lg mt-4 max-w-xl leading-relaxed">

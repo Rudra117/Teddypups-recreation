@@ -108,12 +108,14 @@ export const PuppyProfilePage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
           {/* Left Column: Photo Gallery with Arched Frame */}
           <div className="lg:col-span-6 space-y-4">
-            <div
+            <button
+              type="button"
+              aria-label={`Open ${puppy.name} photo in lightbox`}
               onClick={() => {
                 setLightboxIndex(0);
                 setLightboxOpen(true);
               }}
-              className="relative w-full aspect-[4/5] rounded-[36px] overflow-hidden bg-white border-2 border-espresso-800/15 shadow-paper cursor-pointer group"
+              className="relative w-full aspect-[4/5] rounded-[36px] overflow-hidden bg-white border-2 border-espresso-800/15 shadow-paper cursor-pointer group text-left"
             >
               <img
                 src={puppy.image}
@@ -131,7 +133,7 @@ export const PuppyProfilePage: React.FC = () => {
                   Korean Teacup
                 </span>
               )}
-            </div>
+            </button>
 
             {/* Gallery Thumbnails */}
             {galleryImages.length > 1 && (
@@ -331,6 +333,7 @@ export const PuppyProfilePage: React.FC = () => {
                 <input
                   type="text"
                   required
+                  aria-label="Your name"
                   placeholder="e.g. Sarah Jenkins"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -346,6 +349,9 @@ export const PuppyProfilePage: React.FC = () => {
                   <input
                     type="tel"
                     required
+                    aria-label="Phone or WhatsApp number"
+                    pattern="[+]?[0-9][0-9 ]{6,18}"
+                    title="Enter a valid phone number, including country code if needed."
                     placeholder="+971 50 123 4567"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -358,6 +364,7 @@ export const PuppyProfilePage: React.FC = () => {
                   </label>
                   <input
                     type="email"
+                    aria-label="Email address (optional)"
                     placeholder="sarah@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -372,6 +379,7 @@ export const PuppyProfilePage: React.FC = () => {
                 </label>
                 <input
                   type="text"
+                  aria-label="Area or Emirate"
                   placeholder="e.g. Dubai Marina / Downtown Dubai"
                   value={formData.area}
                   onChange={(e) => setFormData({ ...formData, area: e.target.value })}
@@ -385,6 +393,7 @@ export const PuppyProfilePage: React.FC = () => {
                 </label>
                 <textarea
                   rows={3}
+                  aria-label="Message"
                   placeholder={`Hi, I'd like to ask about ${puppy.name}...`}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}

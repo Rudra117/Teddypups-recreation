@@ -165,6 +165,7 @@ export const ContactPage: React.FC = () => {
                       <input
                         type="text"
                         required
+                        aria-label="Your name"
                         placeholder="your name"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -174,6 +175,9 @@ export const ContactPage: React.FC = () => {
                       <input
                         type="tel"
                         required
+                        aria-label="Phone or WhatsApp number"
+                        pattern="[+]?[0-9][0-9 ]{6,18}"
+                        title="Enter a valid phone number, including country code if needed."
                         placeholder="+971 50 123 4567"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -182,6 +186,7 @@ export const ContactPage: React.FC = () => {
                       or by email at{' '}
                       <input
                         type="email"
+                        aria-label="Email address (optional)"
                         placeholder="optional"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -194,6 +199,7 @@ export const ContactPage: React.FC = () => {
                       I live in{' '}
                       <input
                         type="text"
+                        aria-label="Area or Emirate"
                         placeholder="e.g. Dubai Marina"
                         value={formData.area}
                         onChange={(e) => setFormData({ ...formData, area: e.target.value })}
@@ -201,9 +207,10 @@ export const ContactPage: React.FC = () => {
                       />
                       , and I&apos;m curious about{' '}
                       <select
+                        aria-label="Puppy of interest"
                         value={formData.puppyId}
                         onChange={(e) => setFormData({ ...formData, puppyId: e.target.value })}
-                        className="font-sans text-sm sm:text-base border-b-2 border-espresso-800 bg-cream-50/80 px-2 py-0.5 outline-none focus:border-terracotta text-espresso-900 transition-colors rounded-none"
+                        className="max-w-full font-sans text-sm sm:text-base border-b-2 border-espresso-800 bg-cream-50/80 px-2 py-0.5 outline-none focus:border-terracotta text-espresso-900 transition-colors rounded-none"
                       >
                         <option value="">any puppy (not sure yet)</option>
                         {availablePuppies.map((p) => (
@@ -223,6 +230,7 @@ export const ContactPage: React.FC = () => {
                     </label>
                     <textarea
                       rows={4}
+                      aria-label="Your note (optional)"
                       placeholder="Anything else you'd like to tell us about your home, questions about import, or dates for a visit…"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
