@@ -1,0 +1,31 @@
+export const siteConfig = {
+  name: 'TeddyPups U.A.E.',
+  tagline: 'Premium teacup & miniature puppies in Dubai',
+  phone: '+971 54 167 6733',
+  phoneDisplay: '+971 54 167 6733',
+  email: 'teddypupsadmin@gmail.com',
+  showroom: 'Downtown Dubai, United Arab Emirates',
+  hours: 'Showroom visits by appointment • 7 days a week',
+  whatsappMessageDefault: "Hi TeddyPups! I'd love to know more about your puppies.",
+  social: {
+    instagram: 'https://www.instagram.com/teddypups.worldwide/',
+    tiktok: 'https://www.tiktok.com/@teddypupsuae',
+  },
+  navLinks: [
+    { label: 'Home', path: '/' },
+    { label: 'Puppies', path: '/puppies' },
+    { label: 'Happy families', path: '/happy-families' },
+    { label: 'How it works', path: '/how-it-works' },
+    { label: 'FAQ', path: '/faq' },
+    { label: 'Visit & contact', path: '/contact' },
+  ],
+  footerLinks: [
+    { label: 'Available puppies', path: '/puppies' },
+    { label: 'Gone home', path: '/gone-home' },
+    { label: 'Happy families', path: '/happy-families' },
+    { label: 'How it works', path: '/how-it-works' },
+    { label: 'Delivery & collection', path: '/how-it-works#delivery' },
+    { label: 'Questions & answers', path: '/faq' },
+    { label: 'Visit Downtown Dubai', path: '/contact' },
+  ],
+};
