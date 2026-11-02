@@ -145,14 +145,14 @@ export const PuppiesPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right 2/3: Row of gone-home puppy cards */}
+            {/* Right 2/3: Row of gone-home puppy cards (No extra scrollbar, clean 4-card layout) */}
             <div className="lg:w-2/3">
-              <div className="flex items-center gap-4 overflow-x-auto pb-4 scrollbar-none">
-                {previewGoneHome.map((pup, idx) => (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {previewGoneHome.slice(0, 4).map((pup, idx) => (
                   <Link
                     key={pup.id}
                     to={`/puppies/${pup.slug}`}
-                    className="shrink-0 w-44 sm:w-52 bg-white rounded-3xl p-3 border-2 border-cocoa/15 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group text-center"
+                    className="w-full bg-white rounded-3xl p-3 border-2 border-cocoa/15 shadow-sm hover:shadow-md transition-all hover:-translate-y-1 group text-center"
                     style={{ transform: `rotate(${idx % 2 === 0 ? '-1.5deg' : '1.5deg'})` }}
                   >
                     <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-cream-200 border border-cocoa/10 relative">
@@ -175,21 +175,6 @@ export const PuppiesPage: React.FC = () => {
                     </div>
                   </Link>
                 ))}
-
-                {/* View All Gone Home Card */}
-                <Link
-                  to="/gone-home"
-                  className="shrink-0 w-40 sm:w-44 aspect-[4/5] rounded-3xl border-2 border-dashed border-cocoa/30 hover:border-cocoa bg-cream-50 hover:bg-cream-100 flex flex-col items-center justify-center p-4 text-center transition-all group"
-                >
-                  <span className="font-plush font-bold text-cocoa text-lg group-hover:scale-105 transition-transform">
-                    View all {goneHomePuppies.length}
-                    <br />
-                    alumni
-                  </span>
-                  <span className="font-scrawl text-xs text-toffee mt-2">
-                    see stories →
-                  </span>
-                </Link>
               </div>
             </div>
           </div>

@@ -108,6 +108,7 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
 
   return (
     <div
+      id="section-meet"
       ref={containerRef}
       style={{ height: containerHeight }}
       className="relative w-full bg-[#FBF3DF]"
@@ -174,58 +175,71 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
                   className="w-[220px] sm:w-[250px] md:w-[270px] shrink-0 group flex flex-col items-center"
                 >
                   {/* Door Header Plate */}
-                  <div className="text-center mb-2.5 h-[52px] flex flex-col justify-end">
+                  <div className="text-center mb-2.5 h-[56px] flex flex-col justify-end px-2">
                     <h3 className="font-plush text-lg sm:text-xl font-black text-cocoa leading-tight truncate">
                       {puppy.name}
                     </h3>
-                    <p className="font-sans text-[0.72rem] text-cocoa/70 font-semibold mt-0.5 truncate">
-                      {puppy.breed} • {puppy.gender}
-                      {puppy.age ? `, ${puppy.age}` : ''}
+                    <p className="font-sans text-[0.74rem] text-cocoa/80 font-medium mt-0.5 truncate">
+                      {(() => {
+                        const parts: string[] = [];
+                        if (!puppy.name.toLowerCase().includes(puppy.breed.toLowerCase())) {
+                          parts.push(puppy.breed);
+                        }
+                        parts.push(puppy.gender.toLowerCase());
+                        if (puppy.age) parts.push(puppy.age);
+                        if (puppy.id === 'maltipoo-max-male' || puppy.id === 'korean-teacup-maltipoo-female') {
+                          parts.push('with video');
+                        }
+                        return parts.join(', ');
+                      })()}
                     </p>
                   </div>
 
-                  {/* Arched Door Frame & Opening Leaf */}
-                  <Link
-                    to={`/puppies/${puppy.slug}`}
-                    className="block relative w-full aspect-[4/5] rounded-t-[140px] border-[3.5px] border-cocoa bg-[#3B2215] overflow-hidden shadow-paper tp-door-way"
-                  >
-                    {/* Inside Room: Puppy Photo */}
-                    <div className="absolute inset-0 overflow-hidden rounded-t-[136px]">
-                      <img
-                        src={puppy.image}
-                        alt={puppy.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    {/* 3D Door Leaf (Swings Open via rotateY) */}
-                    <div
-                      className="tp-door-leaf absolute inset-0 rounded-t-[136px] border-r-[3px] border-cocoa pointer-events-none"
-                      style={{
-                        background: `repeating-linear-gradient(90deg, transparent 0 calc(25% - 1.5px), rgba(42, 23, 14, 0.15) calc(25% - 1.5px) 25%), ${doorColor}`,
-                        transform: isOpen ? 'rotateY(-78deg) scale(0.96)' : 'rotateY(0deg)',
-                      }}
+                  {/* Arched Door Frame & Opening Leaf Wrapper */}
+                  <div className="relative w-full aspect-[4/5]">
+                    {/* Arched Door Frame (Clipped interior) */}
+                    <Link
+                      to={`/puppies/${puppy.slug}`}
+                      className="block relative w-full h-full rounded-t-[140px] border-[3.5px] border-cocoa bg-[#3B2215] overflow-hidden shadow-paper tp-door-way"
                     >
-                      {/* Inner Inset Panel Border */}
-                      <div className="absolute inset-[10%_12%_6%] border-2 border-white/20 rounded-t-[120px] rounded-b-md pointer-events-none" />
-
-                      {/* Engraved Paw Peephole */}
-                      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-8 h-8 text-white/40 pointer-events-none">
-                        <svg viewBox="0 0 64 64" fill="currentColor">
-                          <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
-                        </svg>
+                      {/* Inside Room: Puppy Photo */}
+                      <div className="absolute inset-0 overflow-hidden rounded-t-[136px]">
+                        <img
+                          src={puppy.image}
+                          alt={puppy.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                        />
                       </div>
 
-                      {/* Brass Door Knob */}
-                      <div className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#E5A93B] border border-cocoa shadow-sm" />
-                    </div>
+                      {/* 3D Door Leaf (Swings Open via rotateY) */}
+                      <div
+                        className="tp-door-leaf absolute inset-0 rounded-t-[136px] border-r-[3px] border-cocoa pointer-events-none"
+                        style={{
+                          background: `repeating-linear-gradient(90deg, transparent 0 calc(25% - 1.5px), rgba(42, 23, 14, 0.15) calc(25% - 1.5px) 25%), ${doorColor}`,
+                          transform: isOpen ? 'rotateY(-78deg) scale(0.96)' : 'rotateY(0deg)',
+                        }}
+                      >
+                        {/* Inner Inset Panel Border */}
+                        <div className="absolute inset-[10%_12%_6%] border-2 border-white/20 rounded-t-[120px] rounded-b-md pointer-events-none" />
 
-                    {/* "Available" Tilted Tag Pin */}
-                    <span className="absolute top-2 right-2 px-2.5 py-0.5 rounded-full bg-white/95 border-2 border-cocoa text-[0.68rem] font-bold font-scrawl text-cocoa shadow-sm transform rotate-6 z-20">
+                        {/* Engraved Paw Peephole */}
+                        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-8 h-8 text-white/40 pointer-events-none">
+                          <svg viewBox="0 0 64 64" fill="currentColor">
+                            <path d="M32 30.5c-7.6 0-15.6 8.3-15.6 15.5 0 5.4 4.2 8.3 9.2 8.3 2.6 0 4.5-1.1 6.4-1.1s3.8 1.1 6.4 1.1c5 0 9.2-2.9 9.2-8.3 0-7.2-8-15.5-15.6-15.5zM19.28 26.71C21.07 30.08 20.42 33.92 17.84 35.29C15.25 36.67 11.71 35.05 9.92 31.69C8.13 28.32 8.78 24.48 11.36 23.11C13.95 21.73 17.49 23.35 19.28 26.71ZM29.62 15.64C30.32 19.62 28.46 23.26 25.47 23.79C22.48 24.32 19.48 21.53 18.78 17.56C18.08 13.58 19.94 9.94 22.93 9.41C25.92 8.88 28.92 11.67 29.62 15.64ZM45.22 17.56C44.52 21.53 41.52 24.32 38.53 23.79C35.54 23.26 33.68 19.62 34.38 15.64C35.08 11.67 38.08 8.88 41.07 9.41C44.06 9.94 45.92 13.58 45.22 17.56ZM54.08 31.69C52.29 35.05 48.75 36.67 46.16 35.29C43.58 33.92 42.93 30.08 44.72 26.71C46.51 23.35 50.05 21.73 52.64 23.11C55.22 24.48 55.87 28.32 54.08 31.69Z" />
+                          </svg>
+                        </div>
+
+                        {/* Brass Door Knob */}
+                        <div className="absolute right-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#E5A93B] border border-cocoa shadow-sm" />
+                      </div>
+                    </Link>
+
+                    {/* "Available" Tilted Tag Pin (OUTSIDE clipping container, 100% visible on top-right shoulder) */}
+                    <span className="absolute top-[32px] -right-2 px-3 py-0.5 rounded-full bg-white border-2 border-cocoa text-xs font-bold font-sans text-cocoa shadow-md transform rotate-[5deg] z-30 pointer-events-none">
                       Available
                     </span>
-                  </Link>
+                  </div>
                 </div>
               );
             })}
@@ -251,7 +265,10 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
         </div>
 
         {/* Wooden Floorboard Platform Running Below the Doors */}
-        <div className="relative w-full h-8 bg-[#D4A373] border-t-4 border-b-4 border-cocoa flex items-center justify-between px-8 shadow-inner mt-4">
+        <div
+          id="meet-wooden-platform"
+          className="relative w-full h-8 bg-[#D4A373] border-t-4 border-b-4 border-cocoa flex items-center justify-between px-8 shadow-inner mt-4"
+        >
           {/* Subtle woodgrain plank lines */}
           <div
             className="absolute inset-0 opacity-20 pointer-events-none bg-[repeating-linear-gradient(90deg,transparent_0_120px,#2A170E_120px_122px)]"
@@ -259,7 +276,7 @@ export const MeetThePupsDoors: React.FC<MeetThePupsDoorsProps> = ({ puppies }) =
           />
 
           {/* Mascot Puppy Standing on the Wooden Floor */}
-          <div className="relative -top-8 z-30 transition-transform duration-300 hover:scale-105">
+          <div className="pup-stop-placeholder relative -top-8 z-30 transition-transform duration-300 hover:scale-105">
             <svg
               viewBox="0 0 300 240"
               className="w-24 h-20 overflow-visible"

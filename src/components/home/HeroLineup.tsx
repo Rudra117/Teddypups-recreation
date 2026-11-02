@@ -139,6 +139,7 @@ export const HeroLineup: React.FC<HeroLineupProps> = ({ puppies }) => {
 
         {/* Center Seat (Mascot Teddy Peeking over the Quilt) */}
         <div
+          id="hero-mascot-center"
           className="absolute bottom-[-10px] left-1/2 -translate-x-1/2 z-30 transition-transform duration-300 hover:scale-105 cursor-pointer"
           style={{ width: 'clamp(11rem, 22vw, 14rem)' }}
           title="Teddy peeking over the quilt!"

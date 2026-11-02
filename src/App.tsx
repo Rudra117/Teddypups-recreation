@@ -5,7 +5,7 @@ import { Footer } from './components/common/Footer';
 import { StickyBottomBar } from './components/common/StickyBottomBar';
 import { PawTrailCursor } from './components/common/PawTrailCursor';
 import { RouteCurtain } from './components/common/RouteCurtain';
-import { WalkingPuppyMascot } from './components/common/WalkingPuppyMascot';
+import { PupScrollJourney } from './components/common/PupScrollJourney';
 
 // Pages
 import { HomePage } from './pages/HomePage';
@@ -38,8 +38,8 @@ export const App: React.FC = () => {
       <PawTrailCursor />
       {/* Priority 6: Page transition & reload quilted curtain */}
       <RouteCurtain />
-      {/* Walking puppy mascot: strictly rendered on homepage only */}
-      {location.pathname === '/' && <WalkingPuppyMascot />}
+      {/* Scroll-driven Mascot Journey on Homepage */}
+      {location.pathname === '/' && <PupScrollJourney />}
       <ScrollToTop />
 
       <Header />

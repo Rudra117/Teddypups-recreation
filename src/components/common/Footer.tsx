@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="relative bg-espresso-800 text-cream-100 pt-16 pb-28 md:pb-16 mt-20 overflow-hidden">
+    <footer id="site-footer" className="relative bg-espresso-800 text-cream-100 pt-16 pb-28 md:pb-16 mt-20 overflow-hidden">
       {/* Curved Hill SVG Transition */}
       <div className="absolute inset-x-0 -top-1 w-full overflow-hidden leading-none z-10">
         <svg
@@ -71,7 +71,9 @@ export const Footer: React.FC = () => {
               TeddyPups U.A.E. is a Dubai-based brand specializing in miniature puppies, offering ethical care, verified health certificates, and worldwide delivery.
             </p>
             <div className="pt-2 flex items-center gap-4">
-              <MascotTeddy variant="sitting" className="w-24 h-20" />
+              <div className="pup-stop-placeholder">
+                <MascotTeddy variant="sitting" className="w-24 h-20" />
+              </div>
               <div className="text-xs text-cream-300 font-handwriting text-xl">
                 every puppy is family ♥
               </div>

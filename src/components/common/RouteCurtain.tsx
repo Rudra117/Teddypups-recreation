@@ -1,21 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-interface RouteCurtainProps {
-  initialDelay?: number;
-}
-
-export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
-  const location = useLocation();
-  const [curtainState, setCurtainState] = useState<'idle' | 'covering' | 'lifting'>('idle');
-  const prevPathRef = useRef<string>(location.pathname);
-  const isFirstMount = useRef<boolean>(true);
-  const timersRef = useRef<number[]>([]);
-
-  const clearAllTimers = () => {
-    timersRef.current.forEach((id) => window.clearTimeout(id));
-    timersRef.current = [];
-  };
+export const RouteCurtain: React.FC = () => {
+  const { pathname } = useLocation();
+  const [curtainState, setCurtainState] = useState<'covering' | 'lifting' | 'idle'>('covering');
 
   useEffect(() => {
     // Respect reduced motion
@@ -27,45 +15,27 @@ export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
       return;
     }
 
-    // On initial mount / direct URL open: NEVER block the page with a stuck curtain
-    if (isFirstMount.current) {
-      isFirstMount.current = false;
+    // Always reset to covering on mount or route change
+    setCurtainState('covering');
+
+    // 1. Give users comfortable time to read "every puppy is family" (~850ms)
+    const t1 = window.setTimeout(() => {
+      setCurtainState('lifting');
+    }, 850);
+
+    // 2. Complete the lift transition (~1280ms) and remove from DOM
+    const t2 = window.setTimeout(() => {
       setCurtainState('idle');
-      return;
-    }
+    }, 1280);
 
-    // On subsequent route transitions (when clicking navigation links or puppy cards)
-    if (location.pathname !== prevPathRef.current) {
-      prevPathRef.current = location.pathname;
-      clearAllTimers();
+    // Cleanup always clears these exact timeouts if unmounted or route changes
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [pathname]);
 
-      setCurtainState('covering');
-
-      // 1. Covering phase (140ms) -> Lift phase
-      const t1 = window.setTimeout(() => {
-        setCurtainState('lifting');
-      }, 140);
-
-      // 2. Lift complete (380ms) -> Idle (removed from view)
-      const t2 = window.setTimeout(() => {
-        setCurtainState('idle');
-      }, 380);
-
-      // 3. Absolute watchdog failsafe: can NEVER remain visible beyond 450ms
-      const watchdog = window.setTimeout(() => {
-        setCurtainState('idle');
-      }, 450);
-
-      timersRef.current = [t1, t2, watchdog];
-    }
-  }, [location.pathname]);
-
-  // Clean up all timers on unmount
-  useEffect(() => {
-    return () => clearAllTimers();
-  }, []);
-
-  // When idle, render nothing so the page underneath is 100% interactive and clear
+  // When idle, completely unmount from DOM so page is 100% interactive
   if (curtainState === 'idle') {
     return null;
   }
@@ -76,16 +46,16 @@ export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
   return (
     <div
       aria-hidden="true"
-      onClick={() => {
-        clearAllTimers();
-        setCurtainState('idle');
-      }}
-      className="fixed inset-0 z-[95] pointer-events-none overflow-hidden"
+      onClick={() => setCurtainState('idle')}
+      className={`fixed inset-0 z-[95] overflow-hidden ${
+        isLifting ? 'pointer-events-none' : 'pointer-events-auto cursor-pointer'
+      }`}
+      title="Click to dismiss"
       data-state={curtainState}
     >
       {/* Quilted Warm Cream Curtain Blanket */}
       <div
-        className="absolute inset-0 flex items-center justify-center will-change-transform pointer-events-none"
+        className="absolute inset-0 flex items-center justify-center will-change-transform"
         style={{
           background:
             'repeating-linear-gradient(45deg, transparent 0 46px, rgba(42, 23, 14, 0.07) 46px 48px), repeating-linear-gradient(-45deg, transparent 0 46px, rgba(42, 23, 14, 0.07) 46px 48px), radial-gradient(circle at 50% 46%, #FFFDF8 0, transparent 60%), #FCE2B8',
@@ -95,9 +65,9 @@ export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
             ? 'translateY(calc(-100% - 44px))'
             : 'translateY(calc(100% + 44px))',
           transition: isCovering
-            ? 'transform 0.14s cubic-bezier(0.22, 1, 0.36, 1)'
+            ? 'transform 0.18s cubic-bezier(0.22, 1, 0.36, 1)'
             : isLifting
-            ? 'transform 0.24s cubic-bezier(0.65, 0, 0.3, 1)'
+            ? 'transform 0.38s cubic-bezier(0.65, 0, 0.3, 1)'
             : 'none',
         }}
       >
@@ -202,7 +172,7 @@ export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
 
           {/* Scrawl Note */}
           <span className="font-scrawl text-2xl md:text-3xl font-bold text-cocoa tracking-wide">
-            every puppy is family ♥
+            every puppy is family
           </span>
         </div>
       </div>

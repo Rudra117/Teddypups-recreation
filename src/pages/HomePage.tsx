@@ -28,7 +28,7 @@ export const HomePage: React.FC = () => {
           - Arched 7-seat puppy lineup with center peeking mascot
           - Quilted diamond waffle skirt with scalloped rim
          ============================================================== */}
-      <section className="relative bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FFF1D8] pt-8 md:pt-12 pb-0 overflow-hidden">
+      <section id="section-hero" className="relative bg-gradient-to-b from-[#FFFDF8] via-[#FFFDF8] to-[#FFF1D8] pt-8 md:pt-12 pb-0 overflow-hidden">
         <div className="max-w-[110rem] mx-auto px-6 sm:px-10 lg:px-16 text-center">
           <div className="max-w-4xl mx-auto space-y-4 md:space-y-6">
             <span className="font-scrawl text-xl md:text-2xl text-toffee inline-flex items-center gap-2">
@@ -85,7 +85,7 @@ export const HomePage: React.FC = () => {
           - Showroom Window with striped awning & wooden signpost
           - Airplane flight path arc Korea -> Dubai
          ============================================================== */}
-      <section className="py-20 md:py-24 bg-[#FAEED2] border-t border-cocoa/10 relative overflow-hidden">
+      <section id="section-two-ways" className="py-20 md:py-24 bg-[#FAEED2] border-t border-cocoa/10 relative overflow-hidden">
         {/* Subtle decorative background paw accents */}
         <div className="absolute inset-0 pointer-events-none opacity-5">
           <div className="tp-quilt-pattern w-full h-full" />
@@ -221,7 +221,7 @@ export const HomePage: React.FC = () => {
       {/* ==============================================================
           4. CHAT CONSULTATION MOCKUP (Priority 5: #ECC880 Golden Amber)
          ============================================================== */}
-      <section className="py-20 md:py-24 bg-[#ECC880] border-t border-b border-cocoa/15 relative overflow-hidden">
+      <section id="section-guided-adoption" className="py-20 md:py-24 bg-[#ECC880] border-t border-b border-cocoa/15 relative overflow-hidden">
         {/* Subtle texture */}
         <div className="absolute inset-0 pointer-events-none opacity-10">
           <div className="tp-quilt-pattern w-full h-full" />
@@ -396,7 +396,7 @@ export const HomePage: React.FC = () => {
       {/* ==============================================================
           6. HAPPY FAMILIES PREVIEW (Priority 5: #5C341E Rich Cocoa Brown)
          ============================================================== */}
-      <section className="py-20 md:py-24 bg-[#5C341E] text-cream-100 border-t border-cocoa/20 relative overflow-hidden">
+      <section id="section-happy-families" className="py-20 md:py-24 bg-[#5C341E] text-cream-100 border-t border-cocoa/20 relative overflow-hidden">
         {/* Subtle diamond quilted background */}
         <div className="absolute inset-0 pointer-events-none opacity-10">
           <div className="tp-quilt-pattern w-full h-full" />
@@ -506,7 +506,7 @@ export const HomePage: React.FC = () => {
           - Doghouse with arched entrance
           - Cozy mascot pup & action buttons
          ============================================================== */}
-      <section className="py-20 md:py-28 bg-[#21140E] text-cream-100 relative overflow-hidden border-t-4 border-[#140C08]">
+      <section id="section-porch" className="py-20 md:py-28 bg-[#21140E] text-cream-100 relative overflow-hidden border-t-4 border-[#140C08]">
         {/* Glowing lantern illumination radial gradient */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#F6C86E]/10 rounded-full blur-3xl pointer-events-none" />
 

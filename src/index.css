@@ -127,6 +127,13 @@ body {
               #FFF1D8;
 }
 
+/* Traveling Mascot Puppy Journey & Placeholder handling */
+html[data-pup="live"] .pup-stop-placeholder {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 /* Door 3D Perspective & Opening Leaf */
 .tp-door-way {
   perspective: 700px;
