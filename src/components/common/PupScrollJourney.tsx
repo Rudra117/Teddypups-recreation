@@ -214,7 +214,6 @@ export const PupScrollJourney: React.FC = () => {
       }
 
       // Find current waypoint bracket
-      let currentIdx = 0;
       let inPauseRange = false;
       let targetX = w * stops[0].stop.screenX;
       let targetY = h * stops[0].stop.screenY;
@@ -226,7 +225,6 @@ export const PupScrollJourney: React.FC = () => {
       for (let i = 0; i < stops.length; i++) {
         const item = stops[i];
         if (currentScrollY >= item.startY && currentScrollY <= item.endY) {
-          currentIdx = i;
           inPauseRange = true;
           targetX = w * item.stop.screenX;
           targetY = h * item.stop.screenY;
