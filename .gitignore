@@ -31,3 +31,6 @@ dist-ssr
 references/video_frames/
 references/render_verification/
 
+# Source reference material is kept locally and excluded from Git history
+references/
+

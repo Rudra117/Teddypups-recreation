@@ -7,83 +7,98 @@ interface RouteCurtainProps {
 
 export const RouteCurtain: React.FC<RouteCurtainProps> = () => {
   const location = useLocation();
-  const [curtainState, setCurtainState] = useState<'idle' | 'covering' | 'covered' | 'lifting'>('idle');
+  const [curtainState, setCurtainState] = useState<'idle' | 'covering' | 'lifting'>('idle');
   const prevPathRef = useRef<string>(location.pathname);
   const isFirstMount = useRef<boolean>(true);
+  const timersRef = useRef<number[]>([]);
 
-  // Trigger curtain on initial load and route changes
+  const clearAllTimers = () => {
+    timersRef.current.forEach((id) => window.clearTimeout(id));
+    timersRef.current = [];
+  };
+
   useEffect(() => {
     // Respect reduced motion
     if (
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) {
+      setCurtainState('idle');
       return;
     }
 
+    // On initial mount / direct URL open: NEVER block the page with a stuck curtain
     if (isFirstMount.current) {
       isFirstMount.current = false;
-      // Show short welcoming curtain on initial load
-      setCurtainState('covered');
-      const timer = setTimeout(() => {
-        setCurtainState('lifting');
-        setTimeout(() => setCurtainState('idle'), 460);
-      }, 550);
-      return () => clearTimeout(timer);
+      setCurtainState('idle');
+      return;
     }
 
-    // On subsequent route transitions
+    // On subsequent route transitions (when clicking navigation links or puppy cards)
     if (location.pathname !== prevPathRef.current) {
       prevPathRef.current = location.pathname;
+      clearAllTimers();
+
       setCurtainState('covering');
 
-      const coverTimer = setTimeout(() => {
-        setCurtainState('covered');
-        // Smooth lift
-        const liftTimer = setTimeout(() => {
-          setCurtainState('lifting');
-          const idleTimer = setTimeout(() => {
-            setCurtainState('idle');
-          }, 460);
-          return () => clearTimeout(idleTimer);
-        }, 320);
-        return () => clearTimeout(liftTimer);
-      }, 280);
+      // 1. Covering phase (140ms) -> Lift phase
+      const t1 = window.setTimeout(() => {
+        setCurtainState('lifting');
+      }, 140);
 
-      return () => clearTimeout(coverTimer);
+      // 2. Lift complete (380ms) -> Idle (removed from view)
+      const t2 = window.setTimeout(() => {
+        setCurtainState('idle');
+      }, 380);
+
+      // 3. Absolute watchdog failsafe: can NEVER remain visible beyond 450ms
+      const watchdog = window.setTimeout(() => {
+        setCurtainState('idle');
+      }, 450);
+
+      timersRef.current = [t1, t2, watchdog];
     }
   }, [location.pathname]);
 
+  // Clean up all timers on unmount
+  useEffect(() => {
+    return () => clearAllTimers();
+  }, []);
+
+  // When idle, render nothing so the page underneath is 100% interactive and clear
   if (curtainState === 'idle') {
     return null;
   }
 
   const isCovering = curtainState === 'covering';
   const isLifting = curtainState === 'lifting';
-  const isCovered = curtainState === 'covered';
 
   return (
     <div
       aria-hidden="true"
+      onClick={() => {
+        clearAllTimers();
+        setCurtainState('idle');
+      }}
       className="fixed inset-0 z-[95] pointer-events-none overflow-hidden"
       data-state={curtainState}
     >
       {/* Quilted Warm Cream Curtain Blanket */}
       <div
-        className="absolute inset-0 flex items-center justify-center transition-transform duration-500 will-change-transform"
+        className="absolute inset-0 flex items-center justify-center will-change-transform pointer-events-none"
         style={{
           background:
             'repeating-linear-gradient(45deg, transparent 0 46px, rgba(42, 23, 14, 0.07) 46px 48px), repeating-linear-gradient(-45deg, transparent 0 46px, rgba(42, 23, 14, 0.07) 46px 48px), radial-gradient(circle at 50% 46%, #FFFDF8 0, transparent 60%), #FCE2B8',
           transform: isCovering
             ? 'translateY(0)'
-            : isCovered
-            ? 'translateY(0)'
             : isLifting
             ? 'translateY(calc(-100% - 44px))'
             : 'translateY(calc(100% + 44px))',
-          transitionTimingFunction: isCovering
-            ? 'cubic-bezier(0.22, 1, 0.36, 1)'
-            : 'cubic-bezier(0.65, 0, 0.3, 1)',
+          transition: isCovering
+            ? 'transform 0.14s cubic-bezier(0.22, 1, 0.36, 1)'
+            : isLifting
+            ? 'transform 0.24s cubic-bezier(0.65, 0, 0.3, 1)'
+            : 'none',
         }}
       >
         {/* Top Scalloped Decorative Rim */}
